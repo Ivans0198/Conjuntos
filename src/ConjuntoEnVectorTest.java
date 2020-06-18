@@ -25,6 +25,18 @@ public class ConjuntoEnVectorTest {
     }
 
     @Test
+    public void debeInsertarDatosAlConjuntoSinRepetirse() {
+        ConjuntoEnVector<String> conjunto = new ConjuntoEnVector<>(String.class, 4);
+        conjunto.agregar("A");
+        conjunto.agregar("A");
+        conjunto.agregar("A");
+        conjunto.agregar("B");
+        conjunto.agregar("C");
+        conjunto.agregar("D");
+        conjunto.mostrar();
+    }
+
+    @Test
     public void debeRetornarLaCantidadElementosDelConjunto() {
         Assert.assertEquals(universal.cantidadElementos(), 10);
     }
@@ -42,7 +54,7 @@ public class ConjuntoEnVectorTest {
 
     @Test
     public void debeRetornarVerdaderoSiEsUnSubConjunto() {
-        ConjuntoEnVector<Integer> subConjunto = new ConjuntoEnVector<>(Integer.class, 6);
+        ConjuntoEnVector<Integer> subConjunto = new ConjuntoEnVector<>(Integer.class, 4);
         subConjunto.agregar(1);
         subConjunto.agregar(2);
         subConjunto.agregar(3);
@@ -106,8 +118,8 @@ public class ConjuntoEnVectorTest {
         assertTrue(esIgual);
     }
 
-    @Test
-    public void debeCrearUnConjuntoComplemento() {
+    @Test(expected = IllegalArgumentException.class)
+    public void debeLanzarExcepcionSiNoEsSubConjuntoDelUniversalParaElComplemento() {
         ConjuntoEnVector<Integer> conjunto = new ConjuntoEnVector<>(Integer.class, 10);
         conjunto.agregar(1);
         conjunto.agregar(2);
@@ -125,8 +137,22 @@ public class ConjuntoEnVectorTest {
     }
 
     @Test
+    public void debeCrearUnConjuntoComplemento() {
+        ConjuntoEnVector<Integer> conjunto = new ConjuntoEnVector<>(Integer.class, 5);
+        conjunto.agregar(1);
+        conjunto.agregar(2);
+        conjunto.agregar(3);
+        conjunto.agregar(4);
+        conjunto.agregar(5);
+
+        ConjuntoEnVector<Integer> complemento = universal.complemento(conjunto);
+        complemento.mostrar();
+    }
+
+    @Test
     public void debeAgregarUnElementoAlConjunto() {
         universal.agregar(5);
+        universal.agregar(50);
         universal.mostrar();
         Assert.assertEquals(universal.cantidadElementos(), 11);
     }
@@ -141,7 +167,7 @@ public class ConjuntoEnVectorTest {
     @Test
     public void debeRetornarLaPosicionDelDato() {
         int posicion = universal.posicion(5);
-        assertEquals(posicion, 6);
+        assertEquals(posicion, 5);
     }
 
     @Test

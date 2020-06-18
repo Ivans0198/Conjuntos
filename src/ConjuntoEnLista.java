@@ -1,12 +1,8 @@
-public class ConjuntoEnLista<T extends Comparable<T>> {
+public class ConjuntoEnLista<T> {
 
     private Nodo<T> cabeza;
 
     // METODOS ACCESORES
-
-    public ConjuntoEnLista() {
-        this.cabeza = new Nodo<T>();
-    }
 
     public Nodo<T> getCabeza() {
         return cabeza;
@@ -20,8 +16,9 @@ public class ConjuntoEnLista<T extends Comparable<T>> {
 
     public void mostrar() {
         Nodo<T> p = cabeza;
+        System.out.println();
         while (p != null) {
-            System.out.println(p.getDato());
+            System.out.print(p.getDato() + "\t");
             p = p.getLiga();
         }
     }
@@ -149,28 +146,43 @@ public class ConjuntoEnLista<T extends Comparable<T>> {
 
     public void agregar(T elemento) {
         Nodo<T> p = cabeza;
-        Nodo<T> nuevo = new Nodo<>();
         if (cabeza == null) {
+            Nodo<T> nuevo = new Nodo<>();
+            nuevo.setDato(elemento);
             cabeza = nuevo;
         } else {
-            while (p.getLiga() != null) {
-                if (p.getDato().equals(elemento)) {
-                    return;
+            if (cabeza.getLiga() == null) {
+                if (!cabeza.getDato().equals(elemento)) {
+                    Nodo<T> nuevo = new Nodo<>();
+                    nuevo.setDato(elemento);
+                    cabeza.setLiga(nuevo);
                 }
-                p = p.getLiga();
+            } else {
+                while (p.getLiga() != null) {
+                    if (p.getDato().equals(elemento)) {
+                        return;
+                    }
+                    p = p.getLiga();
+                }
+                Nodo<T> nuevo = new Nodo<>();
+                nuevo.setDato(elemento);
+                p.setLiga(nuevo);
             }
-            p.setLiga(nuevo);
         }
-        nuevo.setDato(elemento);
     }
+
 
     public void borrar(T elemento) {
         Nodo<T> p = cabeza;
         Nodo<T> aux = p;
         while (p != null) {
             if (p.getDato().equals(elemento)) {
-                aux.setLiga(p.getLiga());
-                break;
+                if(cabeza == p){
+                    cabeza = cabeza.getLiga();
+                } else {
+                    aux.setLiga(p.getLiga());
+                    break;
+                }
             }
             aux = p;
             p = p.getLiga();
@@ -211,6 +223,7 @@ public class ConjuntoEnLista<T extends Comparable<T>> {
             b = conjuntoEnListaB.getCabeza();
             while (b != null) {
                 if (a.getDato().equals(b.getDato())) {
+                    a = a.getLiga();
                     continue minuendo;
                 }
                 b = b.getLiga();

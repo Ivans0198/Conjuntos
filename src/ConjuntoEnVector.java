@@ -33,8 +33,9 @@ public class ConjuntoEnVector<T> {
     // METODOS PROPUESTOS POR EL PROFESOR
 
     public void mostrar() {
+        System.out.println();
         for (T t : vec) {
-            System.out.println(t);
+            System.out.print(t + "\t");
         }
     }
 

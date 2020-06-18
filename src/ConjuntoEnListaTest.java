@@ -27,8 +27,19 @@ public class ConjuntoEnListaTest {
     }
 
     @Test
+    public void debeInsertarDatosAlConjuntoSinRepetirse() {
+        ConjuntoEnLista<String> conjunto = new ConjuntoEnLista<>();
+        conjunto.agregar("A");
+        conjunto.agregar("A");
+        conjunto.agregar("A");
+        conjunto.agregar("A");
+        conjunto.mostrar();
+    }
+
+
+    @Test
     public void debeRetornarLaCantidadElementosDelConjunto() {
-        Assert.assertEquals(universal.cantidadElementos(), 11);
+        Assert.assertEquals(universal.cantidadElementos(), 12);
     }
 
     @Test
@@ -112,8 +123,8 @@ public class ConjuntoEnListaTest {
         assertTrue(esIgual);
     }
 
-    @Test
-    public void debeCrearUnConjuntoComplemento() {
+    @Test(expected = IllegalArgumentException.class)
+    public void debeLanzarExcepcionSiNoEsSubConjuntoDelUniversalParaElComplemento() {
         ConjuntoEnLista<String> conjunto = new ConjuntoEnLista<>();
         conjunto.agregar("A");
         conjunto.agregar("B");
@@ -121,6 +132,17 @@ public class ConjuntoEnListaTest {
         conjunto.agregar("X");
         conjunto.agregar("Y");
         conjunto.agregar("Z");
+        ConjuntoEnLista<String> complemento = universal.complemento(conjunto);
+        complemento.mostrar();
+    }
+
+    @Test()
+    public void debeCrearUnConjuntoComplemento() {
+        ConjuntoEnLista<String> conjunto = new ConjuntoEnLista<>();
+        conjunto.agregar("A");
+        conjunto.agregar("B");
+        conjunto.agregar("C");
+        conjunto.agregar("D");
         ConjuntoEnLista<String> complemento = universal.complemento(conjunto);
         complemento.mostrar();
     }
@@ -135,8 +157,10 @@ public class ConjuntoEnListaTest {
     @Test
     public void debeBorrarUnElementoDelConjunto() {
         universal.borrar("A");
+        universal.borrar("F");
+        universal.borrar("L");
         universal.mostrar();
-        Assert.assertEquals(universal.cantidadElementos(), 10);
+        Assert.assertEquals(universal.cantidadElementos(), 9);
     }
 
     @Test
